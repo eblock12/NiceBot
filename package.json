@@ -8,7 +8,9 @@
     "test": "test"
   },
   "dependencies": {
-    "chai": "~1.9.2"
+    "chai": "~1.9.2",
+    "irc": "~0.3.7",
+    "mathjs": "~1.0.1"
   },
   "devDependencies": {
     "mocha": "~2.0.1"
@@ -27,6 +29,10 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/eblock12/NiceBot/issues"
+  },
+  "jshintConfig": {
+    "node": true,
+    "sub": true
   },
   "private": true
 }
