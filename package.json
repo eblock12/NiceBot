@@ -2,7 +2,7 @@
   "name": "NiceBot",
   "version": "0.1.0",
   "description": "A nice and friendly bot for IRC channels",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {
     "example": "examples",
     "test": "test"
