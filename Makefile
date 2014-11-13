@@ -6,7 +6,7 @@ test:
 	@NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter $(REPORTER) --timeout 3000
 
 jshint:
-	jshint src/plugins examples test src/index.js
+	jshint src/plugins src/index.js
 
 tests: test
 

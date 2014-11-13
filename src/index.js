@@ -12,9 +12,9 @@ var config = require("./NiceBot.json");
 var client = new irc.Client(config.irc.serverHost, config.irc.nickName, config.irc);
 
 // implement dynamic command registration
-commandMap["eval"] = require("./lib/eval.js"); // jshint ignore:line
-commandMap["forecast"] = require("./lib/forecast.js");
-commandMap["weather"] = require("./lib/weather.js");
+commandMap["eval"] = require("./plugins/eval.js"); // jshint ignore:line
+commandMap["forecast"] = require("./plugins/forecast.js");
+commandMap["weather"] = require("./plugins/weather.js");
 
 commandMap["help"] = function (client, from, channel, command, args) {
     var commands = Object.getOwnPropertyNames(commandMap);
