@@ -10,7 +10,8 @@
   "dependencies": {
     "chai": "~1.9.2",
     "irc": "~0.3.7",
-    "mathjs": "~1.0.1"
+    "mathjs": "~1.0.1",
+    "moment": "~2.8.3"
   },
   "devDependencies": {
     "mocha": "~2.0.1"
