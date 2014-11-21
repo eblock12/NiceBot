@@ -1,5 +1,6 @@
 'use strict';
 
+var context = require('../context.js');
 var fs = require('fs');
 var _ = require('lodash');
 
@@ -155,6 +156,11 @@ function shutdown() {
         process.exit();
     });
 }
+
+var client = context.getClient();
+client.on('message', function (from, to, message) {
+    placeData.incrementLineCount(to, from);
+});
 
 module.exports = function (client, from, channel, command, args) {
     var sortedData = placeData.getPlaceData(channel);

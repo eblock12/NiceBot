@@ -2,6 +2,7 @@
 
 var irc = require('irc');
 var util = require('util');
+var context = require('./context');
 
 var commandMap = {};
 
@@ -10,6 +11,8 @@ var config = require("./NiceBot.json");
 
 // node-irc api docs @ https://node-irc.readthedocs.org/en/latest/API.html
 var client = new irc.Client(config.irc.serverHost, config.irc.nickName, config.irc);
+
+context.setClient(client);
 
 // implement dynamic command registration
 commandMap["eval"] = require("./plugins/eval.js"); // jshint ignore:line
