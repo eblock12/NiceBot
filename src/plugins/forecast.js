@@ -8,7 +8,7 @@ var maxDays = 5;
 
 module.exports = function (client, from, channel, command, args) {
     request('http://api.openweathermap.org/data/2.5/forecast/daily?cnt=' + maxDays + '&q=' + encodeURIComponent(args), function(error, response, body) {
-        var data = JSON.parse(body);
+        var data = wutil.safeParseJson(body);
 
         if (data.cod === '404') {
             client.say(channel, from + ": Location not found :(");

@@ -38,4 +38,15 @@ module.exports = {
             return fahrenheitDegrees + '°F';
         }
     },
+
+    safeParseJson: function (json) {
+        var result;
+        try {
+            result = JSON.parse(json);
+        }
+        catch (err) {
+            result = { message: String(err) };
+        }
+        return result;
+    }
 };
