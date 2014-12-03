@@ -24,7 +24,7 @@ var PlaceData = function(file) {
         if (!limit) {
             limit = 10;
         }
-        var result = undefined;
+        var result;
         if (isReadable() && (data[channel] !== undefined)) {
             var chanData = data[channel];
             result = _(chanData)
@@ -36,10 +36,10 @@ var PlaceData = function(file) {
                     return {
                         nick: pair[0],
                         lines: pair[1]
-                    }
+                    };
                 })
                 .first(limit)
-                .value()
+                .value();
         }
         return result;
     };
@@ -61,7 +61,7 @@ var PlaceData = function(file) {
     this.save = function(callback) {
         clearTimeout(saveTimer);
         doWriteCheck(callback);
-    }
+    };
 
     function isReadable() {
         return !dead && !loading;
@@ -164,15 +164,16 @@ client.on('message', function (from, to, message) {
 
 module.exports = function (client, from, channel, command, args) {
     var response = "";
+    var sortedData, i, entry;
     if (args) {
-        var sortedData = placeData.getPlaceData(channel, 10000);
+        sortedData = placeData.getPlaceData(channel, 10000 /*TODO: Remove limit hack*/);
         if (!sortedData) {
             client.say(channel, "No place data is currently available for " + channel);
         }
         else {
-            var entry, ranking;
+            var ranking, len;
             // TODO: Make this faster?
-            for (var i = 0, len = sortedData.length; i < len; i++) {
+            for (i = 0, len = sortedData.length; i < len; i++) {
                 if (sortedData[i].nick === args) {
                     entry = sortedData[i];
                     ranking = i + 1;
@@ -188,13 +189,13 @@ module.exports = function (client, from, channel, command, args) {
         }
     }
     else {
-        var sortedData = placeData.getPlaceData(channel);
+        sortedData = placeData.getPlaceData(channel);
         if (!sortedData) {
             client.say(channel, "No place data is currently available for " + channel);
         }
         else {
-            for (var i = 0; i < sortedData.length; i++) {
-                var entry = sortedData[i];
+            for (i = 0; i < sortedData.length; i++) {
+                entry = sortedData[i];
                 response += String(i + 1) + ". ";
                 response += entry.nick.replace('will`', 'butt');
                 response += '(' + entry.lines + ') ';

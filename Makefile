@@ -1,6 +1,6 @@
 REPORTER = spec
 
-all: jshint test
+all: jshint
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha --recursive --reporter $(REPORTER) --timeout 3000
