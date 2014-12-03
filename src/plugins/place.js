@@ -12,7 +12,7 @@ var PlaceData = function(file) {
     var saving = false;
     var dead = false;
 
-    var saveCheckTime = 1 * 1000 * 60; // 5 minutes
+    var saveCheckTime = 5 * 1000 * 60; // 5 minutes
     var saveTimer = setTimeout(doWriteCheck, saveCheckTime);
 
     if (!file) {
@@ -163,18 +163,62 @@ client.on('message', function (from, to, message) {
 });
 
 module.exports = function (client, from, channel, command, args) {
-    var sortedData = placeData.getPlaceData(channel);
-    if (!sortedData) {
-        client.say(channel, "No place data is currently available for " + channel);
+    var response = "";
+    if (args) {
+        var sortedData = placeData.getPlaceData(channel, 10000);
+        if (!sortedData) {
+            client.say(channel, "No place data is currently available for " + channel);
+        }
+        else {
+            var entry, ranking;
+            // TODO: Make this faster?
+            for (var i = 0, len = sortedData.length; i < len; i++) {
+                if (sortedData[i].nick === args) {
+                    entry = sortedData[i];
+                    ranking = i + 1;
+                    break;
+                }
+            }
+            if (entry) {
+                response += entry.nick + ' is ranked at ' + formatRanking(ranking) + ' place with ' + entry.lines + ' lines';
+            }
+            else {
+                response += from + ': No place data found for that user';
+            }
+        }
     }
     else {
-        var response = "";
-        for (var i = 0; i < sortedData.length; i++) {
-            var entry = sortedData[i];
-            response += String(i + 1) + ". ";
-            response += entry.nick;
-            response += '(' + entry.lines + ') ';
+        var sortedData = placeData.getPlaceData(channel);
+        if (!sortedData) {
+            client.say(channel, "No place data is currently available for " + channel);
         }
-        client.say(channel, response);
+        else {
+            for (var i = 0; i < sortedData.length; i++) {
+                var entry = sortedData[i];
+                response += String(i + 1) + ". ";
+                response += entry.nick.replace('will`', 'butt');
+                response += '(' + entry.lines + ') ';
+            }
+        }
+    }
+    client.say(channel, response);
+
+    function formatRanking(rank) {
+        var result = String(rank);
+        switch (rank) {
+            case 1:
+                result += 'st';
+                break;
+            case 2:
+                result += 'nd';
+                break;
+            case 3:
+                result += 'rd';
+                break;
+            default:
+                result += 'th';
+                break;
+        }
+        return result;
     }
 };
